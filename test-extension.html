@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKTCH Extension Test Page</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        .test-section {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .test-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            margin: 0.5rem 0;
+            font-size: 1rem;
+        }
+        .test-button {
+            background: #8b5cf6;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 0.25rem;
+        }
+        .test-button:hover {
+            background: #7c3aed;
+        }
+        .status-indicator {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin: 0.5rem 0;
+            font-weight: 500;
+        }
+        .status-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #6ee7b7;
+        }
+        .status-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+        .status-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #93c5fd;
+        }
+        .instructions {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .instructions h2 {
+            margin-top: 0;
+        }
+        .hotkey {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="instructions">
+        <h2>🎤 SKTCH Extension Test Page</h2>
+        <p>Use this page to test all SKTCH voice control functionality:</p>
+        <ul>
+            <li>Press <span class="hotkey">⌘ + Shift + V</span> (Mac) or <span class="hotkey">Ctrl + Shift + V</span> (Windows/Linux) to activate voice control</li>
+            <li>Click the SKTCH extension icon in your browser toolbar</li>
+            <li>Test voice input in the form fields below</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h3>📝 Text Input Tests</h3>
+        <p>Test voice-to-text functionality with these input fields:</p>
+        
+        <label for="shortText">Short Text Input:</label>
+        <input type="text" id="shortText" class="test-input" placeholder="Try saying: 'Hello world'">
+        
+        <label for="longText">Long Text Area:</label>
+        <textarea id="longText" class="test-input" rows="4" placeholder="Try saying: 'This is a longer piece of text to test voice recognition accuracy and performance'"></textarea>
+        
+        <label for="email">Email Input:</label>
+        <input type="email" id="email" class="test-input" placeholder="Try saying: 'test at example dot com'">
+        
+        <label for="search">Search Input:</label>
+        <input type="search" id="search" class="test-input" placeholder="Try saying: 'Search for voice recognition technology'">
+    </div>
+
+    <div class="test-section">
+        <h3>🎯 Interactive Elements</h3>
+        <p>Test voice control with buttons and interactive elements:</p>
+        
+        <button class="test-button" onclick="showSuccess('Button 1 clicked!')">Test Button 1</button>
+        <button class="test-button" onclick="showSuccess('Button 2 clicked!')">Test Button 2</button>
+        <button class="test-button" onclick="showSuccess('Submit button activated!')">Submit</button>
+        
+        <div id="statusDisplay"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>📊 Extension Status</h3>
+        <p>Check extension functionality:</p>
+        
+        <button class="test-button" onclick="checkExtension()">Check Extension Status</button>
+        <button class="test-button" onclick="testVoiceEngine()">Test Voice Engine</button>
+        <button class="test-button" onclick="testHUD()">Test HUD Display</button>
+        
+        <div id="extensionStatus"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>🔧 Troubleshooting</h3>
+        <div id="troubleshooting">
+            <div class="status-info">
+                <strong>Extension Installation Steps:</strong><br>
+                1. Open Chrome → chrome://extensions/<br>
+                2. Enable "Developer mode" (top-right toggle)<br>
+                3. Click "Load unpacked extension"<br>
+                4. Select: /Users/kvimedia/SKTCH/dist/<br>
+                5. Pin SKTCH to your toolbar<br>
+                6. Refresh this page and try voice activation
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showSuccess(message) {
+            const display = document.getElementById('statusDisplay');
+            display.innerHTML = `<div class="status-success">✅ ${message}</div>`;
+            setTimeout(() => {
+                display.innerHTML = '';
+            }, 3000);
+        }
+
+        function showError(message) {
+            const display = document.getElementById('extensionStatus');
+            display.innerHTML = `<div class="status-error">❌ ${message}</div>`;
+        }
+
+        function showInfo(message) {
+            const display = document.getElementById('extensionStatus');
+            display.innerHTML = `<div class="status-info">ℹ️ ${message}</div>`;
+        }
+
+        function checkExtension() {
+            showInfo('Checking for SKTCH extension...');
+            
+            // Check if SKTCH is available in the page
+            setTimeout(() => {
+                if (window.sktchInstance) {
+                    showInfo('✅ SKTCH extension detected and active!');
+                } else {
+                    showError('SKTCH extension not detected. Please install and refresh.');
+                }
+            }, 500);
+        }
+
+        function testVoiceEngine() {
+            showInfo('Testing voice engine capabilities...');
+            
+            // Test browser voice recognition support
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                showInfo('✅ Browser supports voice recognition!');
+            } else {
+                showError('Browser does not support voice recognition.');
+            }
+        }
+
+        function testHUD() {
+            showInfo('Testing HUD display...');
+            
+            // Try to trigger HUD if SKTCH is available
+            if (window.sktchInstance && window.sktchInstance.hud) {
+                window.sktchInstance.hud.show();
+                setTimeout(() => {
+                    window.sktchInstance.hud.hide();
+                }, 3000);
+                showInfo('✅ HUD test completed!');
+            } else {
+                showError('HUD not available. Extension may not be loaded.');
+            }
+        }
+
+        // Listen for SKTCH events
+        document.addEventListener('sktch:hud:show', () => {
+            showInfo('🎤 SKTCH HUD activated!');
+        });
+
+        document.addEventListener('sktch:hud:hide', () => {
+            showInfo('SKTCH HUD deactivated.');
+        });
+
+        document.addEventListener('sktch:action:insert', (event) => {
+            showInfo(`✅ Voice text inserted: "${event.detail.text}"`);
+        });
+
+        // Page load check
+        window.addEventListener('load', () => {
+            setTimeout(checkExtension, 1000);
+        });
+
+        // Keyboard shortcut listener
+        document.addEventListener('keydown', (event) => {
+            if ((event.metaKey || event.ctrlKey) && event.shiftKey && event.code === 'KeyV') {
+                showInfo('🎤 Voice activation shortcut detected!');
+            }
+        });
+    </script>
+</body>
+</html>
