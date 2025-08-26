@@ -1,11 +1,35 @@
 'use client';
 
 import Link from 'next/link';
-import { PremiumPulseHUD } from '@/components/PremiumPulseHUD';
-import { TestimonialsSection } from '@/components/TestimonialsSection';
+import dynamic from 'next/dynamic';
 import { Mic, Download, ArrowRight, Chrome, Sparkles, Timer, Shield, Award, CheckCircle } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
+
+// Dynamic imports for heavy components to improve initial loading
+const PremiumPulseHUD = dynamic(() => import('@/components/PremiumPulseHUD').then(mod => ({ default: mod.PremiumPulseHUD })), {
+  loading: () => (
+    <div className="w-32 h-32 rounded-full bg-gradient-to-r from-purple-200 to-pink-200 animate-pulse flex items-center justify-center">
+      <Mic className="w-8 h-8 text-purple-400" />
+    </div>
+  ),
+  ssr: false // Disable SSR for interactive component
+});
+
+const TestimonialsSection = dynamic(() => import('@/components/TestimonialsSection').then(mod => ({ default: mod.TestimonialsSection })), {
+  loading: () => (
+    <div className="max-w-6xl mx-auto px-6 py-16">
+      <div className="grid md:grid-cols-3 gap-8">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="p-6 bg-white rounded-2xl border animate-pulse">
+            <div className="h-4 bg-gray-200 rounded mb-4"></div>
+            <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+});
 
 export default function Home() {
   const [isHUDActive, setIsHUDActive] = useState(false);
@@ -50,8 +74,10 @@ export default function Home() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
+        role="navigation"
+        aria-label="Main navigation"
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-8 py-5 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-6 md:px-8 py-5 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <motion.div 
               className="w-8 h-8 rounded-2xl bg-gradient-to-br from-sktch-hot-pink via-sktch-electric-purple to-sktch-deep-purple shadow-lg"
@@ -77,10 +103,12 @@ export default function Home() {
         </div>
       </motion.nav>
 
-      {/* Lively Hero Section - White Background */}
-      <section ref={heroRef} className="relative pt-32 pb-24 px-6 md:px-8 bg-gradient-to-b from-purple-50/30 to-white">
+      {/* Main Content Area with proper landmark */}
+      <main role="main">
+        {/* Lively Hero Section - White Background */}
+        <section ref={heroRef} className="relative pt-32 pb-24 px-6 md:px-8 bg-gradient-to-b from-purple-50/30 to-white" aria-labelledby="hero-heading">
         <motion.div 
-          className="max-w-5xl mx-auto text-center"
+          className="max-w-6xl mx-auto text-center"
           style={{ opacity: heroOpacity }}
         >
           {/* Live Users Badge */}
@@ -103,7 +131,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4 }}
           >
-            <h1 className="text-6xl md:text-8xl font-black tracking-tight mb-8 leading-[0.95]">
+            <h1 id="hero-heading" className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight mb-8 leading-[0.95] max-w-5xl mx-auto">
               Speak anywhere,
               <br />
               <span className="bg-gradient-to-r from-sktch-hot-pink via-sktch-electric-purple to-sktch-deep-purple bg-clip-text text-transparent">
@@ -117,7 +145,7 @@ export default function Home() {
 
           {/* Lively Performance Indicators */}
           <motion.div
-            className="flex items-center justify-center gap-12 mb-16 text-base"
+            className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12 mb-16 text-base"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -190,9 +218,10 @@ export default function Home() {
           >
             <motion.button
               onClick={handleDownload}
-              className="px-12 py-6 bg-gradient-to-r from-sktch-hot-pink to-sktch-electric-purple text-white font-bold text-xl rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center gap-4 min-w-[320px] justify-center"
+              className="px-12 py-6 bg-gradient-to-r from-sktch-hot-pink to-sktch-electric-purple text-white font-bold text-xl rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center gap-4 min-w-[320px] justify-center relative overflow-hidden group"
               whileHover={{ scale: 1.03, y: -2 }}
               whileTap={{ scale: 0.97 }}
+              aria-label="Download SKTCH extension for free - 60 minutes included, no signup required"
             >
               <Download className="w-6 h-6" />
               <div className="text-left">
@@ -200,6 +229,9 @@ export default function Home() {
                 <div className="text-base opacity-90 font-medium">60 minutes • No signup required</div>
               </div>
               {downloadStarted && <CheckCircle className="w-6 h-6" />}
+              
+              {/* Premium button shimmer effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
             </motion.button>
           </motion.div>
 
@@ -222,10 +254,10 @@ export default function Home() {
             </div>
           </motion.div>
         </motion.div>
-      </section>
+        </section>
 
-      {/* Lively Features Overview */}
-      <section className="py-24 px-6 md:px-8 bg-gradient-to-b from-white to-gray-50">
+        {/* Lively Features Overview */}
+        <section className="py-24 px-6 md:px-8 bg-gradient-to-b from-white to-gray-50" aria-labelledby="features-heading">
         <div className="max-w-6xl mx-auto">
           {/* Engaging section header */}
           <motion.div
@@ -235,7 +267,7 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-5xl md:text-6xl font-black tracking-tight mb-8">
+            <h2 id="features-heading" className="text-5xl md:text-6xl font-black tracking-tight mb-8">
               Voice control that actually
               <span className="block bg-gradient-to-r from-sktch-hot-pink to-sktch-electric-purple bg-clip-text text-transparent">
                 works everywhere
@@ -286,15 +318,15 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
+        </section>
 
-      {/* Testimonials - Clean integration */}
-      <section className="py-20 bg-gray-50">
-        <TestimonialsSection featured={true} showMetrics={false} />
-      </section>
+        {/* Testimonials - Clean integration */}
+        <section className="py-20 bg-gray-50" aria-labelledby="testimonials-heading">
+          <TestimonialsSection featured={true} showMetrics={false} />
+        </section>
 
-      {/* Final CTA - Vibrant style */}
-      <section className="py-24 px-6 md:px-8 bg-gradient-to-b from-gray-50 to-white">
+        {/* Final CTA - Vibrant style */}
+        <section className="py-24 px-6 md:px-8 bg-gradient-to-b from-gray-50 to-white" aria-labelledby="cta-heading">
         <motion.div
           className="max-w-3xl mx-auto text-center"
           initial={{ opacity: 0, y: 30 }}
@@ -302,7 +334,7 @@ export default function Home() {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-6 text-gray-900">
+          <h2 id="cta-heading" className="text-4xl md:text-5xl font-black tracking-tight mb-6 text-gray-900">
             Ready to transform your workflow?
           </h2>
           <p className="text-xl text-gray-600 mb-10 font-medium leading-relaxed">
@@ -313,6 +345,7 @@ export default function Home() {
             className="px-12 py-6 bg-gradient-to-r from-sktch-hot-pink to-sktch-electric-purple text-white font-bold text-xl rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300"
             whileHover={{ scale: 1.05, y: -3 }}
             whileTap={{ scale: 0.95 }}
+            aria-label="Get started with SKTCH extension for free - 60 minutes free, upgrade to Pro for unlimited use"
           >
             Get Started Free
           </motion.button>
@@ -320,10 +353,11 @@ export default function Home() {
             60 minutes free • Upgrade to Pro for unlimited use
           </div>
         </motion.div>
-      </section>
+        </section>
+      </main>
 
       {/* Clean Footer */}
-      <footer className="py-16 px-6 md:px-8 bg-white border-t border-gray-200">
+      <footer className="py-16 px-6 md:px-8 bg-white border-t border-gray-200" role="contentinfo">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-2xl bg-gradient-to-r from-sktch-hot-pink to-sktch-electric-purple shadow-lg" />
@@ -335,7 +369,7 @@ export default function Home() {
             <Link href="/support" className="hover:text-gray-900 transition-colors font-medium">Support</Link>
           </div>
         </div>
-        <div className="text-center text-gray-400 text-base mt-8 font-medium">
+        <div className="text-center text-gray-600 text-base mt-8 font-medium">
           © 2024 SKTCH. Premium voice-native browser extension platform.
         </div>
       </footer>

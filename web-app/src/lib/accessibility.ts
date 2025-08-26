@@ -92,7 +92,7 @@ export function calculateContrastRatio(color1: string, color2: string): ColorCon
 export const SKTCH_COLORS = {
   'deep-purple': '#210b4b',
   'electric-purple': '#6a2a98',
-  'hot-pink': '#ff3d94',
+  'hot-pink': '#d81b60',
   'cool-blue': '#769bc1',
   'sun-gold': '#f4b961',
   'mint': '#b5e3d0',

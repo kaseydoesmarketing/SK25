@@ -108,7 +108,7 @@ const blogPosts = {
 
       Create custom voice shortcuts for repetitive tasks:
 
-      ```
+      \`\`\`
       "Daily standup template" →
       "Yesterday: [accomplishments]
        Today: [planned tasks]  
@@ -119,7 +119,7 @@ const blogPosts = {
        [Your name]
        [Your title]
        [Company] | [Contact info]"
-      ```
+      \`\`\`
 
       ### Multi-Modal Workflows
 
@@ -222,7 +222,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
   // Convert markdown-style content to JSX (simplified version)
   const renderContent = (content: string) => {
     const lines = content.trim().split('\n');
-    const elements: JSX.Element[] = [];
+    const elements: React.ReactElement[] = [];
     let currentIndex = 0;
 
     lines.forEach((line, index) => {

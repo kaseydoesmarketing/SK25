@@ -122,7 +122,7 @@ export default function DownloadPage() {
       return;
     }
 
-    if (version === 'team' && session?.user?.isPro !== 'team') {
+    if (version === 'team' && (session?.user as any)?.planType !== 'team') {
       router.push('/pricing');
       return;
     }

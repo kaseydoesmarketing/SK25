@@ -82,6 +82,16 @@ export function PremiumPulseHUD({
         onClick={handleClick}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
+        role="button"
+        aria-pressed={isListening || isDemo}
+        aria-label={`Voice control ${isListening || isDemo ? 'active' : 'inactive'} - Click to ${isDemo ? 'stop demo' : 'start demo'}`}
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleClick();
+          }
+        }}
       >
         {/* Outer pulsing rings */}
         <AnimatePresence>
@@ -202,19 +212,21 @@ export function PremiumPulseHUD({
             </motion.div>
           </div>
 
-          {/* Shimmer effect for premium feel */}
+          {/* Enhanced shimmer effect for premium feel */}
           <motion.div
             className="absolute inset-0 rounded-full"
             style={{
-              background: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%)'
+              background: 'linear-gradient(45deg, transparent 20%, rgba(255,255,255,0.15) 40%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0.15) 60%, transparent 80%)',
+              filter: 'blur(0.5px)'
             }}
             animate={{
-              x: ['-100%', '100%']
+              x: ['-200%', '200%']
             }}
             transition={{
-              duration: 3,
+              duration: 4,
               repeat: Infinity,
-              ease: "linear"
+              repeatDelay: 2,
+              ease: "easeInOut"
             }}
           />
         </motion.div>

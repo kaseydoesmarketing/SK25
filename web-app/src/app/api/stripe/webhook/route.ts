@@ -8,7 +8,8 @@ const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
 export async function POST(request: NextRequest) {
   const body = await request.text();
-  const sig = headers().get('stripe-signature');
+  const headersList = await headers();
+  const sig = headersList.get('stripe-signature');
 
   if (!sig || !endpointSecret) {
     return NextResponse.json({ error: 'Missing signature' }, { status: 400 });
@@ -52,8 +53,8 @@ export async function POST(request: NextRequest) {
 
       case 'invoice.payment_succeeded': {
         const invoice = event.data.object as Stripe.Invoice;
-        if (invoice.subscription) {
-          const subscription = await stripe.subscriptions.retrieve(invoice.subscription as string);
+        if ((invoice as any).subscription) {
+          const subscription = await stripe.subscriptions.retrieve((invoice as any).subscription as string);
           await handleSubscriptionUpdate(subscription);
         }
         break;
@@ -61,7 +62,7 @@ export async function POST(request: NextRequest) {
 
       case 'invoice.payment_failed': {
         const invoice = event.data.object as Stripe.Invoice;
-        if (invoice.subscription) {
+        if ((invoice as any).subscription) {
           await handlePaymentFailure(invoice);
         }
         break;
@@ -112,9 +113,9 @@ async function handleSubscriptionUpdate(subscription: Stripe.Subscription) {
     status: subscription.status,
     planType,
     billingCycle: subscription.items.data[0]?.price.recurring?.interval === 'year' ? 'yearly' : 'monthly',
-    currentPeriodStart: new Date(subscription.current_period_start * 1000),
-    currentPeriodEnd: new Date(subscription.current_period_end * 1000),
-    cancelAtPeriodEnd: subscription.cancel_at_period_end,
+    currentPeriodStart: new Date((subscription as any).current_period_start * 1000),
+    currentPeriodEnd: new Date((subscription as any).current_period_end * 1000),
+    cancelAtPeriodEnd: (subscription as any).cancel_at_period_end,
   };
 
   await prisma.subscription.upsert({
@@ -185,9 +186,9 @@ async function handlePaymentFailure(invoice: Stripe.Invoice) {
   }
 
   // Update subscription status to past_due if applicable
-  if (invoice.subscription) {
+  if ((invoice as any).subscription) {
     await prisma.subscription.updateMany({
-      where: { stripeSubscriptionId: invoice.subscription as string },
+      where: { stripeSubscriptionId: (invoice as any).subscription as string },
       data: {
         status: 'past_due',
       },

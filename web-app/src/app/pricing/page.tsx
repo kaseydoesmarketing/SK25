@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { Check, Crown, Zap, Shield, Star, Users, Toggle, ArrowRight, Sparkles } from 'lucide-react';
+import { Check, Crown, Zap, Shield, Star, Users, ArrowRight, Sparkles, ToggleLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { getStripePromise, STRIPE_CONFIG, formatPrice, getAnnualSavings, getPlanFeatures } from '@/lib/stripe';
 

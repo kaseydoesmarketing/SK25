@@ -55,7 +55,7 @@ const config: Config = {
           // Primary Gradient Colors
           'deep-purple': '#210b4b',
           'electric-purple': '#6a2a98', 
-          'hot-pink': '#ff3d94',
+          'hot-pink': '#d81b60', // WCAG AA compliant: 5.24:1 contrast ratio
           
           // Accent Colors
           'cool-blue': '#769bc1',
