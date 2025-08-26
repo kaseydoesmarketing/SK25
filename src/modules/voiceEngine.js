@@ -45,6 +45,11 @@ class SKTCHVoiceEngine {
         sampleRate: 16000
       });
 
+      // Voice amplitude detection setup
+      this.analyser = null;
+      this.amplitudeData = null;
+      this.amplitudeCheckInterval = null;
+
     } catch (error) {
       console.error('[SKTCH Voice Engine] Initialization failed:', error);
       this.callbacks.onError?.(error);
@@ -153,29 +158,53 @@ class SKTCHVoiceEngine {
         await this.initializeEngine();
       }
 
-      // Request microphone permission
-      this.mediaStream = await navigator.mediaDevices.getUserMedia({ 
-        audio: {
-          echoCancellation: true,
-          noiseSuppression: true,
-          autoGainControl: true,
-          sampleRate: 16000
-        } 
-      });
+      // Check if we already have permission and media stream
+      if (!this.mediaStream) {
+        console.log('[SKTCH Voice Engine] Requesting microphone permission...');
+        
+        // Request microphone permission with better error handling
+        this.mediaStream = await navigator.mediaDevices.getUserMedia({ 
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true,
+            sampleRate: 16000
+          } 
+        });
+        
+        console.log('[SKTCH Voice Engine] Microphone permission granted');
+        
+        // Setup voice amplitude detection
+        this.setupAmplitudeDetection();
+      }
 
       this.shouldRestart = true;
       this.recognition.start();
       
+      console.log('[SKTCH Voice Engine] Voice recognition started');
       return true;
     } catch (error) {
       console.error('[SKTCH Voice Engine] Failed to start listening:', error);
-      this.callbacks.onError?.(error);
+      
+      // Provide more specific error messages
+      let errorMessage = 'Failed to start voice recognition';
+      if (error.name === 'NotAllowedError') {
+        errorMessage = 'Microphone permission denied. Please allow microphone access.';
+      } else if (error.name === 'NotFoundError') {
+        errorMessage = 'No microphone found. Please check your audio devices.';
+      } else if (error.name === 'NotSupportedError') {
+        errorMessage = 'Voice recognition not supported in this browser.';
+      }
+      
+      this.callbacks.onError?.(errorMessage);
       return false;
     }
   }
 
   stopListening() {
     this.shouldRestart = false;
+    this.stopAmplitudeMonitoring();
+    
     if (this.recognition && this.isListening) {
       this.recognition.stop();
     }
@@ -209,6 +238,59 @@ class SKTCHVoiceEngine {
       this.recognition.grammars = null;
     }
   }
+
+  setupAmplitudeDetection() {
+    if (!this.audioContext || !this.mediaStream) return;
+
+    try {
+      // Create audio source from media stream
+      const source = this.audioContext.createMediaStreamSource(this.mediaStream);
+      
+      // Create analyser node
+      this.analyser = this.audioContext.createAnalyser();
+      this.analyser.fftSize = 256;
+      this.analyser.smoothingTimeConstant = 0.8;
+      
+      // Connect source to analyser
+      source.connect(this.analyser);
+      
+      // Setup data array
+      this.amplitudeData = new Uint8Array(this.analyser.frequencyBinCount);
+      
+      // Start amplitude monitoring
+      this.startAmplitudeMonitoring();
+      
+      console.log('[SKTCH Voice Engine] Amplitude detection setup complete');
+    } catch (error) {
+      console.error('[SKTCH Voice Engine] Amplitude detection setup failed:', error);
+    }
+  }
+
+  startAmplitudeMonitoring() {
+    if (!this.analyser || !this.amplitudeData) return;
+
+    this.amplitudeCheckInterval = setInterval(() => {
+      this.analyser.getByteFrequencyData(this.amplitudeData);
+      
+      // Calculate average amplitude
+      const sum = this.amplitudeData.reduce((acc, val) => acc + val, 0);
+      const average = sum / this.amplitudeData.length;
+      const normalizedAmplitude = average / 255;
+      
+      // Trigger voice amplitude callback if significant voice detected
+      if (normalizedAmplitude > 0.1 && this.isListening) {
+        this.callbacks.onVoiceAmplitude?.(normalizedAmplitude);
+      }
+    }, 50); // Check every 50ms for smooth animations
+  }
+
+  stopAmplitudeMonitoring() {
+    if (this.amplitudeCheckInterval) {
+      clearInterval(this.amplitudeCheckInterval);
+      this.amplitudeCheckInterval = null;
+    }
+  }
+
 }
 
 export default SKTCHVoiceEngine;

@@ -293,6 +293,23 @@ class SKTCHPulseHUD {
   }
 
   // Accessibility methods
+  updateVoiceAmplitude(amplitude) {
+    const pulseCore = this.container.querySelector('.sktch-pulse-core');
+    if (!pulseCore || !this.isListening) return;
+    
+    // Add voice-active class for reactive scaling
+    pulseCore.classList.add('sktch-pulse--voice-active');
+    
+    // Set CSS custom property for amplitude-based scaling
+    const scaleFactor = 1 + (amplitude * 0.5); // Scale between 1 and 1.5
+    pulseCore.style.setProperty('--voice-amplitude', scaleFactor);
+    
+    // Remove the class after animation
+    setTimeout(() => {
+      pulseCore.classList.remove('sktch-pulse--voice-active');
+    }, 150);
+  }
+
   announceToScreenReader(message) {
     const announcement = document.createElement('div');
     announcement.setAttribute('aria-live', 'assertive');

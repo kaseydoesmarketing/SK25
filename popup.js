@@ -181,7 +181,7 @@ class SKTCHPopup {
       
       await chrome.scripting.executeScript({
         target: { tabId: activeTab.id },
-        files: ['content.js']
+        files: ['src/content.js']
       });
       
       // Retry activation after injection

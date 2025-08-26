@@ -65,6 +65,11 @@ class SKTCHContentScript {
       
       onStatusChange: (status) => {
         this.hud.setListening(status === 'listening');
+      },
+      
+      onVoiceAmplitude: (amplitude) => {
+        // Make HUD pulse react to voice amplitude
+        this.hud.updateVoiceAmplitude(amplitude);
       }
     });
   }
@@ -528,11 +533,39 @@ class SKTCHContextDetector {
   }
 }
 
+// Global content script instance
+let sktchInstance = null;
+
 // Initialize SKTCH when DOM is ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
-    new SKTCHContentScript();
+    sktchInstance = new SKTCHContentScript();
   });
 } else {
-  new SKTCHContentScript();
+  sktchInstance = new SKTCHContentScript();
 }
+
+// Listen for messages from popup and background script
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === 'SKTCH_ACTIVATE') {
+    if (sktchInstance) {
+      sktchInstance.toggle();
+      sendResponse({ success: true, message: 'SKTCH activated' });
+    } else {
+      // Initialize if not already done
+      sktchInstance = new SKTCHContentScript();
+      setTimeout(() => {
+        sktchInstance.toggle();
+        sendResponse({ success: true, message: 'SKTCH initialized and activated' });
+      }, 100);
+    }
+    return true; // Keep message channel open for async response
+  }
+  
+  if (message.type === 'SKTCH_STATUS') {
+    sendResponse({ 
+      active: sktchInstance?.isActive || false,
+      available: !!sktchInstance 
+    });
+  }
+});
