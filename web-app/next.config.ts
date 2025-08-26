@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     turbo: {
-      root: __dirname,
+      root: process.cwd(),
     }
   },
   // Performance optimizations for production deployment
