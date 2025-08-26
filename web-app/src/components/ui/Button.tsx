@@ -115,13 +115,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     );
 
     return (
-      <motion.button
+      <button
         ref={ref}
         className={baseStyles}
         disabled={disabled || loading}
-        whileHover={{ scale: disabled || loading ? 1 : 1.02 }}
-        whileTap={{ scale: disabled || loading ? 1 : 0.98 }}
-        {...props}
+        {...props as any}
       >
         {/* Loading State */}
         {loading && <LoadingSpinner size={size} />}
@@ -165,7 +163,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             }}
           />
         )}
-      </motion.button>
+      </button>
     );
   }
 );

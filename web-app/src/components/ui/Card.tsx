@@ -88,13 +88,12 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
     } : {};
 
     return (
-      <MotionCard
+      <div
         ref={ref}
         className={baseStyles}
         tabIndex={clickable ? 0 : undefined}
         role={clickable ? 'button' : undefined}
-        {...motionProps}
-        {...props}
+        {...props as any}
       >
         {children}
         
@@ -117,7 +116,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
             />
           </div>
         )}
-      </MotionCard>
+      </div>
     );
   }
 );
