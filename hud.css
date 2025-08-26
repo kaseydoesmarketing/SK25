@@ -58,32 +58,48 @@
   height: 80px !important;
   margin: 0 auto var(--sktch-space-4) auto !important;
   border-radius: var(--sktch-radius-full) !important;
-  background: var(--sktch-pulse-gradient) !important;
+  background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 50%, #c084fc 100%) !important;
+  box-shadow: 
+    0 4px 20px rgba(139, 92, 246, 0.3),
+    inset 0 0 20px rgba(255, 255, 255, 0.2) !important;
   
   /* Synchronized pulsing */
   animation: sktchPulseCore 2s ease-in-out infinite !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .sktch-pulse-core.sktch-pulse--listening {
-  animation: sktchPulseListening 1s ease-in-out infinite !important;
+  background: linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #f97316 100%) !important;
   box-shadow: 
-    0 0 20px rgba(255, 61, 148, 0.6),
-    0 0 40px rgba(106, 42, 152, 0.4),
-    0 0 60px rgba(33, 11, 75, 0.3) !important;
+    0 0 30px rgba(236, 72, 153, 0.6),
+    0 0 50px rgba(244, 114, 182, 0.4),
+    0 0 80px rgba(249, 115, 22, 0.3),
+    inset 0 0 30px rgba(255, 255, 255, 0.3) !important;
+  animation: sktchPulseListening 1s ease-in-out infinite !important;
 }
 
 .sktch-pulse-core.sktch-pulse--processing {
+  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 50%, #0e7490 100%) !important;
+  box-shadow: 
+    0 0 25px rgba(6, 182, 212, 0.5),
+    0 0 40px rgba(8, 145, 178, 0.3),
+    inset 0 0 25px rgba(255, 255, 255, 0.2) !important;
   animation: sktchPulseProcessing 0.8s ease-in-out infinite !important;
 }
 
-/* Pulse Rings - Organic ripple effects */
+/* Voice amplitude reactive scaling */
+.sktch-pulse-core.sktch-pulse--voice-active {
+  animation: sktchVoiceAmplitude 0.15s ease-out !important;
+}
+
+/* Pulse Rings - Voice-reactive ripple effects */
 .sktch-pulse-rings {
   position: absolute !important;
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
-  width: 120px !important;
-  height: 120px !important;
+  width: 160px !important;
+  height: 160px !important;
   pointer-events: none !important;
 }
 
@@ -92,17 +108,39 @@
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
-  border: 2px solid rgba(255, 61, 148, 0.3) !important;
+  border: 2px solid rgba(139, 92, 246, 0.3) !important;
   border-radius: var(--sktch-radius-full) !important;
-  animation: sktchRipple 2s ease-out infinite !important;
+  opacity: 0 !important;
 }
 
-.sktch-pulse-ring:nth-child(2) {
-  animation-delay: 0.7s !important;
+/* Active voice capture - expanding rings */
+.sktch-pulse--listening .sktch-pulse-ring {
+  animation: sktchVoiceRipple 2s ease-out infinite !important;
+  opacity: 1 !important;
+  border-color: rgba(236, 72, 153, 0.4) !important;
 }
 
-.sktch-pulse-ring:nth-child(3) {
-  animation-delay: 1.4s !important;
+.sktch-pulse--listening .sktch-pulse-ring:nth-child(2) {
+  animation-delay: 0.4s !important;
+}
+
+.sktch-pulse--listening .sktch-pulse-ring:nth-child(3) {
+  animation-delay: 0.8s !important;
+}
+
+/* Text production rings */
+.sktch-pulse--processing .sktch-pulse-ring {
+  animation: sktchTextRipple 1.5s ease-out infinite !important;
+  opacity: 1 !important;
+  border-color: rgba(6, 182, 212, 0.4) !important;
+}
+
+.sktch-pulse--processing .sktch-pulse-ring:nth-child(2) {
+  animation-delay: 0.3s !important;
+}
+
+.sktch-pulse--processing .sktch-pulse-ring:nth-child(3) {
+  animation-delay: 0.6s !important;
 }
 
 /* Status Display */
@@ -280,16 +318,43 @@
   }
 }
 
-@keyframes sktchRipple {
+@keyframes sktchVoiceRipple {
   0% {
-    width: 0;
-    height: 0;
-    opacity: 1;
+    width: 60px;
+    height: 60px;
+    opacity: 0.8;
   }
   100% {
-    width: 120px;
-    height: 120px;
+    width: 160px;
+    height: 160px;
     opacity: 0;
+  }
+}
+
+@keyframes sktchTextRipple {
+  0% {
+    width: 50px;
+    height: 50px;
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    width: 140px;
+    height: 140px;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+@keyframes sktchVoiceAmplitude {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(var(--voice-amplitude, 1.2));
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
   }
 }
 

@@ -136,7 +136,7 @@ class SKTCHBackgroundService {
     try {
       await chrome.scripting.executeScript({
         target: { tabId },
-        files: ['content.js']
+        files: ['src/content.js']
       });
       
       console.log('[SKTCH Background] Content script injected');
