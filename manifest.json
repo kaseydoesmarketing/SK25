@@ -1,0 +1,64 @@
+{
+  "manifest_version": 3,
+  "name": "SKTCH - Voice-Native Browser Extension",
+  "version": "0.1.0",
+  "description": "Premium voice-first browser extension with intelligent voice control and stunning Pulse HUD interface",
+  
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+  
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  
+  "background": {
+    "service_worker": "src/background.js",
+    "type": "module"
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/content.js"],
+      "css": ["hud.css"],
+      "run_at": "document_end",
+      "all_frames": true
+    }
+  ],
+  
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "SKTCH Voice Control",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  
+  "commands": {
+    "activate_sktch": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+V",
+        "mac": "Command+Shift+V"
+      },
+      "description": "Activate SKTCH voice control"
+    }
+  },
+  
+  "web_accessible_resources": [
+    {
+      "resources": ["hud.css", "pulse-animations.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

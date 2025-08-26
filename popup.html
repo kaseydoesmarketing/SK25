@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SKTCH - Voice Control</title>
+  <style>
+    /* Import design system - use relative path */
+    @import url('./src/styles/design-system.css');
+    
+    body {
+      width: 320px;
+      min-height: 400px;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, var(--sktch-deep-purple) 0%, var(--sktch-electric-purple) 100%);
+      color: var(--sktch-soft-white);
+      overflow: hidden;
+    }
+    
+    .popup-container {
+      padding: var(--sktch-space-4);
+      position: relative;
+    }
+    
+    .popup-header {
+      text-align: center;
+      margin-bottom: var(--sktch-space-6);
+    }
+    
+    .popup-logo {
+      font-size: var(--sktch-font-2xl);
+      font-weight: 700;
+      background: var(--sktch-primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: var(--sktch-space-2);
+    }
+    
+    .popup-tagline {
+      font-size: var(--sktch-font-sm);
+      opacity: 0.8;
+      margin: 0;
+    }
+    
+    .status-section {
+      background: var(--sktch-glass-white);
+      border-radius: var(--sktch-radius-lg);
+      padding: var(--sktch-space-4);
+      margin-bottom: var(--sktch-space-4);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: var(--sktch-space-2);
+      margin-bottom: var(--sktch-space-3);
+    }
+    
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--sktch-accent-blue);
+      animation: sktchPulse 2s ease-in-out infinite;
+    }
+    
+    .status-text {
+      font-size: var(--sktch-font-sm);
+      font-weight: 500;
+    }
+    
+    .quick-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sktch-space-3);
+      margin-top: var(--sktch-space-3);
+    }
+    
+    .stat-item {
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: var(--sktch-font-lg);
+      font-weight: 600;
+      color: var(--sktch-hot-pink);
+    }
+    
+    .stat-label {
+      font-size: var(--sktch-font-xs);
+      opacity: 0.7;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .controls-section {
+      margin-bottom: var(--sktch-space-4);
+    }
+    
+    .section-title {
+      font-size: var(--sktch-font-sm);
+      font-weight: 600;
+      margin-bottom: var(--sktch-space-3);
+      opacity: 0.9;
+    }
+    
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sktch-space-2);
+    }
+    
+    .control-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--sktch-space-2);
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: var(--sktch-radius-base);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .control-label {
+      font-size: var(--sktch-font-sm);
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .toggle-switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all var(--sktch-duration-fast) var(--sktch-easing);
+    }
+    
+    .toggle-switch.active {
+      background: var(--sktch-hot-pink);
+    }
+    
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      transition: transform var(--sktch-duration-fast) var(--sktch-easing);
+    }
+    
+    .toggle-switch.active::after {
+      transform: translateX(20px);
+    }
+    
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sktch-space-2);
+    }
+    
+    .action-btn {
+      padding: var(--sktch-space-3) var(--sktch-space-4);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: var(--sktch-radius-base);
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--sktch-soft-white);
+      font-size: var(--sktch-font-sm);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--sktch-duration-fast) var(--sktch-easing);
+      text-align: center;
+    }
+    
+    .action-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-1px);
+    }
+    
+    .action-btn.primary {
+      background: var(--sktch-primary-gradient);
+      border-color: transparent;
+    }
+    
+    .action-btn.primary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+    
+    .upgrade-section {
+      background: linear-gradient(135deg, var(--sktch-hot-pink) 0%, var(--sktch-electric-purple) 100%);
+      border-radius: var(--sktch-radius-lg);
+      padding: var(--sktch-space-4);
+      text-align: center;
+      margin-top: var(--sktch-space-4);
+    }
+    
+    .upgrade-title {
+      font-size: var(--sktch-font-lg);
+      font-weight: 600;
+      margin-bottom: var(--sktch-space-2);
+    }
+    
+    .upgrade-text {
+      font-size: var(--sktch-font-sm);
+      opacity: 0.9;
+      margin-bottom: var(--sktch-space-3);
+    }
+    
+    .usage-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: var(--sktch-space-3);
+    }
+    
+    .usage-fill {
+      height: 100%;
+      background: var(--sktch-soft-white);
+      transition: width var(--sktch-duration-normal) var(--sktch-easing);
+    }
+    
+    .hotkey-display {
+      display: flex;
+      align-items: center;
+      gap: var(--sktch-space-2);
+      padding: var(--sktch-space-2);
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: var(--sktch-radius-base);
+      font-family: monospace;
+      font-size: var(--sktch-font-sm);
+    }
+    
+    .hotkey-key {
+      padding: 2px 6px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 3px;
+      font-size: var(--sktch-font-xs);
+    }
+    
+    @media (prefers-reduced-motion: reduce) {
+      .status-dot {
+        animation: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="popup-container">
+    <header class="popup-header">
+      <h1 class="popup-logo">SKTCH</h1>
+      <p class="popup-tagline">Voice-native browser control</p>
+    </header>
+    
+    <section class="status-section">
+      <div class="status-indicator">
+        <div class="status-dot"></div>
+        <span class="status-text" id="statusText">Ready for voice control</span>
+      </div>
+      
+      <div class="hotkey-display">
+        <span>Activate:</span>
+        <span class="hotkey-key">⌘</span>
+        <span class="hotkey-key">⇧</span>
+        <span class="hotkey-key">V</span>
+      </div>
+      
+      <div class="quick-stats">
+        <div class="stat-item">
+          <div class="stat-value" id="usageMinutes">--</div>
+          <div class="stat-label">Minutes Used</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="avgLatency">--</div>
+          <div class="stat-label">Avg Latency</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="controls-section">
+      <h2 class="section-title">Quick Settings</h2>
+      <div class="control-group">
+        <div class="control-item">
+          <span class="control-label">Voice Filter</span>
+          <div class="toggle-switch active" id="voiceFilterToggle"></div>
+        </div>
+        <div class="control-item">
+          <span class="control-label">Echo Whisper</span>
+          <div class="toggle-switch" id="echoWhisperToggle"></div>
+        </div>
+        <div class="control-item">
+          <span class="control-label">Auto Submit</span>
+          <div class="toggle-switch" id="autoSubmitToggle"></div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="action-buttons">
+      <button class="action-btn primary" id="activateBtn">
+        Activate Voice Control
+      </button>
+      <button class="action-btn" id="settingsBtn">
+        Advanced Settings
+      </button>
+    </section>
+    
+    <section class="upgrade-section" id="upgradeSection" style="display: none;">
+      <h3 class="upgrade-title">Upgrade to Pro</h3>
+      <p class="upgrade-text">You've used <span id="freeUsage">60</span>/60 free minutes</p>
+      <div class="usage-bar">
+        <div class="usage-fill" id="usageBar" style="width: 100%;"></div>
+      </div>
+      <button class="action-btn" id="upgradeBtn">
+        Get Unlimited Access - $12/month
+      </button>
+    </section>
+  </div>
+  
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

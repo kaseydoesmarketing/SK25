@@ -1,0 +1,320 @@
+/**
+ * SKTCH Pulse HUD - Premium voice interface overlay
+ * Synchronized pulsations, glass-blur effects, and organic animations
+ */
+
+/* Import design system - use relative path */
+@import url('./src/styles/design-system.css');
+
+/* HUD Container - Always on top with isolated styles */
+.sktch-hud-container {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: var(--sktch-z-hud) !important;
+  pointer-events: none !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  color: var(--sktch-soft-white) !important;
+  
+  /* Isolation from host page styles */
+  all: initial !important;
+  box-sizing: border-box !important;
+}
+
+/* Main HUD Interface */
+.sktch-hud {
+  position: relative !important;
+  width: 320px !important;
+  padding: var(--sktch-space-6) !important;
+  border-radius: var(--sktch-radius-xl) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  background: var(--sktch-glass-gradient) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: var(--sktch-elevated-shadow), var(--sktch-glow-shadow) !important;
+  pointer-events: auto !important;
+  user-select: none !important;
+  
+  /* Organic entrance animation */
+  animation: sktchHudEnter 0.6s var(--sktch-bounce) forwards !important;
+  opacity: 0 !important;
+  transform: scale(0.3) translateY(100px) !important;
+}
+
+.sktch-hud.sktch-hud--active {
+  opacity: 1 !important;
+  transform: scale(1) translateY(0) !important;
+}
+
+.sktch-hud.sktch-hud--exit {
+  animation: sktchHudExit 0.4s var(--sktch-easing) forwards !important;
+}
+
+/* Pulse Core - The beating heart of SKTCH */
+.sktch-pulse-core {
+  position: relative !important;
+  width: 80px !important;
+  height: 80px !important;
+  margin: 0 auto var(--sktch-space-4) auto !important;
+  border-radius: var(--sktch-radius-full) !important;
+  background: var(--sktch-pulse-gradient) !important;
+  
+  /* Synchronized pulsing */
+  animation: sktchPulseCore 2s ease-in-out infinite !important;
+}
+
+.sktch-pulse-core.sktch-pulse--listening {
+  animation: sktchPulseListening 1s ease-in-out infinite !important;
+  box-shadow: 
+    0 0 20px rgba(255, 61, 148, 0.6),
+    0 0 40px rgba(106, 42, 152, 0.4),
+    0 0 60px rgba(33, 11, 75, 0.3) !important;
+}
+
+.sktch-pulse-core.sktch-pulse--processing {
+  animation: sktchPulseProcessing 0.8s ease-in-out infinite !important;
+}
+
+/* Pulse Rings - Organic ripple effects */
+.sktch-pulse-rings {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 120px !important;
+  height: 120px !important;
+  pointer-events: none !important;
+}
+
+.sktch-pulse-ring {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  border: 2px solid rgba(255, 61, 148, 0.3) !important;
+  border-radius: var(--sktch-radius-full) !important;
+  animation: sktchRipple 2s ease-out infinite !important;
+}
+
+.sktch-pulse-ring:nth-child(2) {
+  animation-delay: 0.7s !important;
+}
+
+.sktch-pulse-ring:nth-child(3) {
+  animation-delay: 1.4s !important;
+}
+
+/* Status Display */
+.sktch-status {
+  text-align: center !important;
+  margin-bottom: var(--sktch-space-4) !important;
+}
+
+.sktch-status-text {
+  font-size: var(--sktch-font-lg) !important;
+  font-weight: 600 !important;
+  background: var(--sktch-primary-gradient) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  margin-bottom: var(--sktch-space-2) !important;
+}
+
+.sktch-transcription {
+  min-height: 60px !important;
+  padding: var(--sktch-space-3) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-radius: var(--sktch-radius-base) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  font-size: var(--sktch-font-base) !important;
+  line-height: 1.5 !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  overflow-y: auto !important;
+  max-height: 120px !important;
+}
+
+.sktch-transcription.sktch-transcription--interim {
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-style: italic !important;
+}
+
+/* Flow Mode Indicator */
+.sktch-flow-mode {
+  display: flex !important;
+  justify-content: center !important;
+  gap: var(--sktch-space-2) !important;
+  margin-bottom: var(--sktch-space-4) !important;
+}
+
+.sktch-flow-badge {
+  padding: var(--sktch-space-1) var(--sktch-space-3) !important;
+  border-radius: var(--sktch-radius-full) !important;
+  font-size: var(--sktch-font-xs) !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  transition: all var(--sktch-duration-fast) var(--sktch-easing) !important;
+}
+
+.sktch-flow-badge.sktch-flow-badge--active {
+  background: var(--sktch-primary-gradient) !important;
+  color: var(--sktch-soft-white) !important;
+  border-color: transparent !important;
+  transform: scale(1.1) !important;
+}
+
+/* Controls */
+.sktch-controls {
+  display: flex !important;
+  justify-content: center !important;
+  gap: var(--sktch-space-3) !important;
+}
+
+.sktch-control-btn {
+  padding: var(--sktch-space-2) var(--sktch-space-4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: var(--sktch-radius-base) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: var(--sktch-soft-white) !important;
+  font-size: var(--sktch-font-sm) !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all var(--sktch-duration-fast) var(--sktch-easing) !important;
+}
+
+.sktch-control-btn:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  transform: translateY(-1px) !important;
+}
+
+.sktch-control-btn:active {
+  transform: translateY(0) !important;
+}
+
+/* Performance Indicator */
+.sktch-perf-indicator {
+  position: absolute !important;
+  top: var(--sktch-space-3) !important;
+  right: var(--sktch-space-3) !important;
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: var(--sktch-radius-full) !important;
+  background: var(--sktch-accent-blue) !important;
+  opacity: 0.7 !important;
+}
+
+.sktch-perf-indicator.sktch-perf--warning {
+  background: #ffa500 !important;
+}
+
+.sktch-perf-indicator.sktch-perf--error {
+  background: #ff4444 !important;
+}
+
+/* HUD Animations */
+@keyframes sktchHudEnter {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) translateY(100px);
+  }
+  50% {
+    transform: scale(1.05) translateY(-10px);
+  }
+  70% {
+    transform: scale(0.9) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes sktchHudExit {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8) translateY(-50px);
+  }
+}
+
+@keyframes sktchPulseCore {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+@keyframes sktchPulseListening {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+@keyframes sktchPulseProcessing {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.1) rotate(90deg);
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+  }
+  75% {
+    transform: scale(1.1) rotate(270deg);
+  }
+}
+
+@keyframes sktchRipple {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    width: 120px;
+    height: 120px;
+    opacity: 0;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .sktch-hud {
+    width: 280px !important;
+    padding: var(--sktch-space-4) !important;
+  }
+  
+  .sktch-pulse-core {
+    width: 60px !important;
+    height: 60px !important;
+  }
+}
+
+/* Dark Mode Enhancement */
+@media (prefers-color-scheme: dark) {
+  .sktch-hud {
+    background: linear-gradient(135deg, rgba(33, 11, 75, 0.4) 0%, rgba(106, 42, 152, 0.3) 100%) !important;
+  }
+}
+
+/* Accessibility - Focus States */
+.sktch-control-btn:focus {
+  outline: 2px solid var(--sktch-accent-blue) !important;
+  outline-offset: 2px !important;
+}

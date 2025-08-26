@@ -1,0 +1,21 @@
+{
+  "name": "sktch-voice-extension",
+  "version": "0.1.0",
+  "description": "Premium voice-native browser extension with intelligent voice control",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "load-extension": "echo 'Load /Users/kvimedia/SKTCH/dist in Chrome://extensions with Developer Mode enabled'"
+  },
+  "dependencies": {
+    "webextension-polyfill": "^0.10.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "vite-plugin-web-extension": "^4.0.0",
+    "@types/webextension-polyfill": "^0.10.0"
+  }
+}

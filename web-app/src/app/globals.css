@@ -1,0 +1,763 @@
+@import 'tailwindcss';
+
+/* ============================================
+   SKTCH DESIGN SYSTEM - GLOBAL FOUNDATION
+   ============================================ */
+
+:root {
+  /* ============================================
+     CORE COLOR SYSTEM 
+     ============================================ */
+  
+  /* Primary Brand Colors */
+  --sktch-deep-purple: #210b4b;
+  --sktch-electric-purple: #6a2a98;
+  --sktch-hot-pink: #ff3d94;
+  
+  /* Accent Colors */
+  --sktch-cool-blue: #769bc1;
+  --sktch-sun-gold: #f4b961;
+  --sktch-mint: #b5e3d0;
+  --sktch-coral: #ec7567;
+  --sktch-peach: #f7d5bb;
+  
+  /* Glass/UI Colors */
+  --sktch-soft-white: #ffffff;
+  --sktch-glass-white: rgba(255, 255, 255, 0.1);
+  --sktch-glass-medium: rgba(255, 255, 255, 0.2);
+  --sktch-glass-strong: rgba(255, 255, 255, 0.3);
+  --sktch-glass-dark: rgba(33, 11, 75, 0.2);
+  --sktch-glass-darker: rgba(33, 11, 75, 0.4);
+  
+  /* Semantic State Colors */
+  --sktch-success: var(--sktch-mint);
+  --sktch-warning: var(--sktch-sun-gold);
+  --sktch-error: var(--sktch-coral);
+  --sktch-info: var(--sktch-cool-blue);
+  --sktch-active: var(--sktch-mint);
+
+  /* ============================================
+     GRADIENT SYSTEM 
+     ============================================ */
+  
+  /* Primary Brand Gradients */
+  --sktch-primary-gradient: linear-gradient(135deg, var(--sktch-deep-purple) 0%, var(--sktch-electric-purple) 50%, var(--sktch-hot-pink) 100%);
+  --sktch-primary-vertical: linear-gradient(180deg, var(--sktch-deep-purple) 0%, var(--sktch-electric-purple) 50%, var(--sktch-hot-pink) 100%);
+  --sktch-primary-radial: radial-gradient(circle at center, var(--sktch-hot-pink) 0%, var(--sktch-electric-purple) 50%, var(--sktch-deep-purple) 100%);
+  
+  /* Pulse Gradients */
+  --sktch-pulse-gradient: radial-gradient(circle, var(--sktch-hot-pink) 0%, var(--sktch-electric-purple) 60%, var(--sktch-deep-purple) 100%);
+  --sktch-pulse-soft: radial-gradient(circle, rgba(255, 61, 148, 0.8) 0%, rgba(106, 42, 152, 0.6) 60%, rgba(33, 11, 75, 0.4) 100%);
+  
+  /* Glass Gradients */
+  --sktch-glass-gradient: linear-gradient(135deg, var(--sktch-glass-white) 0%, var(--sktch-glass-dark) 100%);
+  --sktch-glass-strong-gradient: linear-gradient(135deg, var(--sktch-glass-medium) 0%, var(--sktch-glass-darker) 100%);
+
+  /* ============================================
+     SHADOW SYSTEM 
+     ============================================ */
+  
+  /* Soft Shadows */
+  --sktch-soft-shadow: 0 8px 32px rgba(33, 11, 75, 0.3);
+  --sktch-soft-shadow-sm: 0 4px 16px rgba(33, 11, 75, 0.2);
+  --sktch-soft-shadow-lg: 0 16px 48px rgba(33, 11, 75, 0.4);
+  
+  /* Glow Effects */
+  --sktch-glow-shadow: 0 0 40px rgba(255, 61, 148, 0.4);
+  --sktch-glow-shadow-sm: 0 0 20px rgba(255, 61, 148, 0.3);
+  --sktch-glow-shadow-lg: 0 0 60px rgba(255, 61, 148, 0.5);
+  
+  /* Elevated Shadows */
+  --sktch-elevated-shadow: 0 16px 64px rgba(33, 11, 75, 0.4), 0 8px 24px rgba(33, 11, 75, 0.3);
+  --sktch-floating-shadow: 0 24px 80px rgba(33, 11, 75, 0.5), 0 12px 32px rgba(33, 11, 75, 0.4);
+  
+  /* Glass Shadows */
+  --sktch-glass-shadow: 0 8px 32px rgba(33, 11, 75, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --sktch-glass-strong-shadow: 0 16px 48px rgba(33, 11, 75, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+
+  /* ============================================
+     ANIMATION TIMINGS 
+     ============================================ */
+  
+  /* Duration Scale */
+  --sktch-duration-fast: 150ms;
+  --sktch-duration-normal: 300ms;
+  --sktch-duration-slow: 500ms;
+  --sktch-duration-slower: 750ms;
+  
+  /* Easing Functions */
+  --sktch-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --sktch-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --sktch-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --sktch-ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --sktch-ease-organic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  /* ============================================
+     SPACING SCALE 
+     ============================================ */
+  
+  /* Mathematical spacing progression */
+  --sktch-space-0_5: 0.125rem; /* 2px */
+  --sktch-space-1: 0.25rem;    /* 4px */
+  --sktch-space-2: 0.5rem;     /* 8px */
+  --sktch-space-3: 0.75rem;    /* 12px */
+  --sktch-space-4: 1rem;       /* 16px */
+  --sktch-space-5: 1.25rem;    /* 20px */
+  --sktch-space-6: 1.5rem;     /* 24px */
+  --sktch-space-8: 2rem;       /* 32px */
+  --sktch-space-10: 2.5rem;    /* 40px */
+  --sktch-space-12: 3rem;      /* 48px */
+  --sktch-space-16: 4rem;      /* 64px */
+  --sktch-space-20: 5rem;      /* 80px */
+  --sktch-space-24: 6rem;      /* 96px */
+  --sktch-space-32: 8rem;      /* 128px */
+  
+  /* ============================================
+     BORDER RADIUS SCALE 
+     ============================================ */
+  
+  --sktch-radius-xs: 0.125rem;   /* 2px */
+  --sktch-radius-sm: 0.25rem;    /* 4px */
+  --sktch-radius-md: 0.5rem;     /* 8px */
+  --sktch-radius-lg: 0.75rem;    /* 12px */
+  --sktch-radius-xl: 1rem;       /* 16px */
+  --sktch-radius-2xl: 1.5rem;    /* 24px */
+  --sktch-radius-3xl: 2rem;      /* 32px */
+  --sktch-radius-full: 9999px;
+}
+
+@theme inline {
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+}
+
+/* ============================================
+   BASE STYLES & RESET 
+   ============================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px; /* Base font size for rem calculations */
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  color: var(--sktch-soft-white);
+  background: var(--sktch-primary-gradient);
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ============================================
+   PREMIUM COMPONENT UTILITIES 
+   ============================================ */
+
+/* Glass Morphism System */
+.glass-card {
+  background: var(--sktch-glass-gradient);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--sktch-glass-medium);
+  border-radius: var(--sktch-radius-xl);
+  box-shadow: var(--sktch-glass-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-card-strong {
+  background: var(--sktch-glass-strong-gradient);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid var(--sktch-glass-strong);
+  box-shadow: var(--sktch-glass-strong-shadow);
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  opacity: 0.6;
+}
+
+/* Gradient Text System */
+.sktch-gradient-text {
+  background: var(--sktch-primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+  font-weight: 600;
+}
+
+.sktch-gradient-text-mint {
+  background: linear-gradient(135deg, var(--sktch-mint) 0%, #9dd6c4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.sktch-gradient-text-coral {
+  background: linear-gradient(135deg, var(--sktch-coral) 0%, #d65a4a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================
+   PREMIUM BUTTON SYSTEM 
+   ============================================ */
+
+/* Primary Button - Full Gradient */
+.btn-primary {
+  background: var(--sktch-primary-gradient);
+  color: var(--sktch-soft-white);
+  border: none;
+  border-radius: var(--sktch-radius-lg);
+  padding: var(--sktch-space-3) var(--sktch-space-6);
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all var(--sktch-duration-normal) var(--sktch-ease-out);
+  box-shadow: var(--sktch-soft-shadow);
+  min-height: 44px; /* Touch-friendly minimum */
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--sktch-elevated-shadow);
+  filter: brightness(1.05);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: var(--sktch-active);
+}
+
+.btn-primary:focus-visible {
+  outline: none;
+  box-shadow: var(--sktch-focus);
+}
+
+/* Secondary Button - Glass with Gradient Border */
+.btn-secondary {
+  background: var(--sktch-glass-gradient);
+  color: var(--sktch-soft-white);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  border-radius: var(--sktch-radius-lg);
+  padding: calc(var(--sktch-space-3) - 2px) calc(var(--sktch-space-6) - 2px);
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  position: relative;
+  transition: all var(--sktch-duration-normal) var(--sktch-ease-out);
+  backdrop-filter: blur(20px);
+  min-height: 44px;
+}
+
+.btn-secondary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  background: var(--sktch-primary-gradient);
+  border-radius: inherit;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: xor;
+  -webkit-mask-composite: xor;
+}
+
+.btn-secondary:hover {
+  background: var(--sktch-glass-strong-gradient);
+  transform: translateY(-1px);
+}
+
+/* Ghost Button - Transparent with Gradient Text */
+.btn-ghost {
+  background: transparent;
+  color: var(--sktch-soft-white);
+  border: 1px solid var(--sktch-glass-medium);
+  border-radius: var(--sktch-radius-lg);
+  padding: var(--sktch-space-3) var(--sktch-space-6);
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all var(--sktch-duration-normal) var(--sktch-ease-out);
+  min-height: 44px;
+}
+
+.btn-ghost:hover {
+  background: var(--sktch-glass-gradient);
+  border-color: var(--sktch-glass-strong);
+  color: var(--sktch-soft-white);
+}
+
+/* Disabled Button State */
+.btn-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* ============================================
+   PULSE HUD SYSTEM (Crown Jewel) 
+   ============================================ */
+
+/* Main Pulse HUD Container */
+.pulse-hud {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--sktch-pulse-gradient);
+  box-shadow: var(--sktch-glow-shadow);
+  cursor: pointer;
+  transition: all var(--sktch-duration-normal) var(--sktch-ease-organic);
+  will-change: transform, box-shadow;
+}
+
+/* Size Variants */
+.pulse-hud-small {
+  width: 60px;
+  height: 60px;
+}
+
+.pulse-hud-large {
+  width: 120px;
+  height: 120px;
+}
+
+/* State Classes */
+.pulse-hud-idle {
+  animation: sktchBreathe 4s ease-in-out infinite;
+}
+
+.pulse-hud-listening {
+  animation: sktchListening 1.2s ease-in-out infinite;
+}
+
+.pulse-hud-processing {
+  position: relative;
+}
+
+.pulse-hud-processing::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 2px solid transparent;
+  border-top-color: var(--sktch-hot-pink);
+  border-radius: 50%;
+  animation: sktchProcessing 1s linear infinite;
+}
+
+.pulse-hud-success {
+  animation: sktchSuccessPulse 0.8s ease-out;
+  background: linear-gradient(135deg, var(--sktch-mint) 0%, #9dd6c4 100%);
+}
+
+.pulse-hud-error {
+  animation: sktchErrorShake 0.5s ease-in-out;
+  background: linear-gradient(135deg, var(--sktch-coral) 0%, #d65a4a 100%);
+}
+
+/* Voice Ripple Effects */
+.pulse-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid rgba(255, 61, 148, 0.3);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.pulse-ring-listening {
+  animation: sktchVoiceRipple 1.5s ease-out infinite;
+}
+
+.pulse-ring-processing {
+  animation: sktchVoiceRipple 1s ease-out infinite;
+  border-color: rgba(181, 227, 208, 0.4);
+}
+
+/* ============================================
+   FORM SYSTEM 
+   ============================================ */
+
+/* Glass Input Fields */
+.input-glass {
+  background: var(--sktch-glass-gradient);
+  border: 1px solid var(--sktch-glass-medium);
+  border-radius: var(--sktch-radius-lg);
+  padding: var(--sktch-space-3) var(--sktch-space-4);
+  color: var(--sktch-soft-white);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  backdrop-filter: blur(20px);
+  transition: all var(--sktch-duration-normal) var(--sktch-ease-out);
+  min-height: 44px;
+  width: 100%;
+}
+
+.input-glass::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.input-glass:focus {
+  outline: none;
+  border-color: var(--sktch-hot-pink);
+  box-shadow: 0 0 0 3px rgba(255, 61, 148, 0.2);
+  background: var(--sktch-glass-strong-gradient);
+}
+
+/* Textarea Variant */
+.textarea-glass {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* ============================================
+   CARD SYSTEM 
+   ============================================ */
+
+/* Premium Cards */
+.card-premium {
+  background: var(--sktch-glass-gradient);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--sktch-glass-medium);
+  border-radius: var(--sktch-radius-2xl);
+  padding: var(--sktch-space-6);
+  box-shadow: var(--sktch-soft-shadow);
+  transition: all var(--sktch-duration-normal) var(--sktch-ease-out);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+}
+
+.card-premium:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sktch-elevated-shadow);
+  border-color: var(--sktch-glass-strong);
+}
+
+/* Card with Gradient Border */
+.card-gradient-border {
+  position: relative;
+  background: var(--sktch-glass-gradient);
+  border-radius: var(--sktch-radius-2xl);
+  padding: var(--sktch-space-6);
+}
+
+.card-gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  background: var(--sktch-primary-gradient);
+  border-radius: inherit;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: xor;
+  -webkit-mask-composite: xor;
+}
+
+/* ============================================
+   MODAL SYSTEM 
+   ============================================ */
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(33, 11, 75, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: var(--sktch-z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sktch-space-4);
+}
+
+/* Modal Container */
+.modal-container {
+  background: var(--sktch-glass-strong-gradient);
+  backdrop-filter: blur(30px);
+  border: 1px solid var(--sktch-glass-strong);
+  border-radius: var(--sktch-radius-2xl);
+  box-shadow: var(--sktch-floating-shadow);
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ============================================
+   FOCUS & ACCESSIBILITY 
+   ============================================ */
+
+/* Focus Ring System */
+.focus-ring:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 61, 148, 0.4);
+}
+
+.focus-ring-mint:focus-visible {
+  box-shadow: 0 0 0 3px rgba(181, 227, 208, 0.4);
+}
+
+.focus-ring-blue:focus-visible {
+  box-shadow: 0 0 0 3px rgba(118, 155, 193, 0.4);
+}
+
+/* Skip Links for Screen Readers */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--sktch-deep-purple);
+  color: var(--sktch-soft-white);
+  padding: var(--sktch-space-2) var(--sktch-space-4);
+  text-decoration: none;
+  border-radius: var(--sktch-radius-md);
+  z-index: 1000;
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+/* ============================================
+   RESPONSIVE UTILITIES 
+   ============================================ */
+
+/* Touch-Friendly Minimum Sizes & Mobile Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .btn-primary,
+  .btn-secondary,
+  .btn-ghost,
+  .input-glass {
+    min-height: 48px; /* Larger touch targets on mobile */
+  }
+  
+  /* Larger tap targets for mobile */
+  .pulse-hud {
+    min-width: 64px;
+    min-height: 64px;
+  }
+  
+  /* Better mobile spacing */
+  .glass-card {
+    padding: var(--sktch-space-4);
+  }
+}
+
+/* Mobile-Specific Styles */
+@media (max-width: 768px) {
+  /* Improve text readability on mobile */
+  h1, .text-4xl, .text-5xl, .text-6xl {
+    line-height: 1.2;
+  }
+  
+  /* Optimize glass cards for mobile */
+  .glass-card {
+    margin: var(--sktch-space-2);
+    border-radius: var(--sktch-radius-lg);
+  }
+  
+  /* Better mobile navigation */
+  nav {
+    padding: var(--sktch-space-4) var(--sktch-space-3);
+  }
+  
+  /* Mobile-optimized form inputs */
+  .input-glass {
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  /* Reduce padding on very small screens */
+  .glass-card {
+    padding: var(--sktch-space-3);
+    margin: var(--sktch-space-1);
+  }
+  
+  /* Stack navigation items on very small screens */
+  .mobile-nav-stack {
+    flex-direction: column;
+    gap: var(--sktch-space-2);
+  }
+}
+
+/* ============================================
+   ANIMATION KEYFRAMES 
+   ============================================ */
+
+/* Additional keyframes for complex animations */
+@keyframes sktchRipple {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    width: 140px;
+    height: 140px;
+    opacity: 0;
+  }
+}
+
+@keyframes sktchFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes sktchShimmerSuccess {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY & USER PREFERENCES 
+   ============================================ */
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .pulse-hud {
+    animation: none;
+  }
+  
+  .pulse-ring {
+    animation: none;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  :root {
+    --sktch-deep-purple: #000000;
+    --sktch-hot-pink: #ff0066;
+    --sktch-soft-white: #ffffff;
+    --sktch-glass-white: rgba(255, 255, 255, 0.9);
+    --sktch-glass-medium: rgba(255, 255, 255, 0.8);
+  }
+  
+  .glass-card,
+  .card-premium,
+  .input-glass {
+    border-width: 2px;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    border: 2px solid var(--sktch-soft-white);
+  }
+}
+
+/* Dark Mode Support (if system preference changes) */
+@media (prefers-color-scheme: light) {
+  /* SKTCH maintains dark theme regardless - premium brand decision */
+}
+
+/* Loading States */
+.loading-skeleton {
+  background: linear-gradient(90deg, var(--sktch-glass-white) 25%, var(--sktch-glass-medium) 50%, var(--sktch-glass-white) 75%);
+  background-size: 200% 100%;
+  animation: sktchLoading 1.5s infinite;
+}
+
+@keyframes sktchLoading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Performance Optimizations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+/* Content Visibility for Performance */
+.content-visibility-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 1000px;
+}
+
+/* Print Styles */
+@media print {
+  .pulse-hud,
+  .modal-overlay,
+  .btn-primary,
+  .btn-secondary,
+  .btn-ghost {
+    display: none;
+  }
+  
+  .glass-card,
+  .card-premium {
+    background: white;
+    border: 1px solid #ccc;
+    color: black;
+  }
+}

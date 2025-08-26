@@ -1,0 +1,189 @@
+/**
+ * SKTCH Design System - Premium gradient system and component library
+ * Core colors: deep purple (#210b4b) → electric purple (#6a2a98) → hot pink (#ff3d94)
+ */
+
+:root {
+  /* Core Color System */
+  --sktch-deep-purple: #210b4b;
+  --sktch-electric-purple: #6a2a98;
+  --sktch-hot-pink: #ff3d94;
+  --sktch-accent-blue: #00d4ff;
+  --sktch-soft-white: #ffffff;
+  --sktch-glass-white: rgba(255, 255, 255, 0.1);
+  --sktch-glass-dark: rgba(33, 11, 75, 0.2);
+
+  /* Gradient System */
+  --sktch-primary-gradient: linear-gradient(135deg, var(--sktch-deep-purple) 0%, var(--sktch-electric-purple) 50%, var(--sktch-hot-pink) 100%);
+  --sktch-pulse-gradient: radial-gradient(circle, var(--sktch-hot-pink) 0%, var(--sktch-electric-purple) 60%, var(--sktch-deep-purple) 100%);
+  --sktch-glass-gradient: linear-gradient(135deg, var(--sktch-glass-white) 0%, var(--sktch-glass-dark) 100%);
+
+  /* Shadow System */
+  --sktch-soft-shadow: 0 8px 32px rgba(33, 11, 75, 0.3);
+  --sktch-glow-shadow: 0 0 40px rgba(255, 61, 148, 0.4);
+  --sktch-elevated-shadow: 0 16px 64px rgba(33, 11, 75, 0.4);
+
+  /* Typography Scale */
+  --sktch-font-xs: 0.75rem;
+  --sktch-font-sm: 0.875rem;
+  --sktch-font-base: 1rem;
+  --sktch-font-lg: 1.125rem;
+  --sktch-font-xl: 1.25rem;
+  --sktch-font-2xl: 1.5rem;
+  --sktch-font-3xl: 1.875rem;
+
+  /* Spacing Scale */
+  --sktch-space-1: 0.25rem;
+  --sktch-space-2: 0.5rem;
+  --sktch-space-3: 0.75rem;
+  --sktch-space-4: 1rem;
+  --sktch-space-6: 1.5rem;
+  --sktch-space-8: 2rem;
+  --sktch-space-12: 3rem;
+  --sktch-space-16: 4rem;
+
+  /* Animation Timing */
+  --sktch-duration-fast: 0.15s;
+  --sktch-duration-normal: 0.3s;
+  --sktch-duration-slow: 0.5s;
+  --sktch-easing: cubic-bezier(0.4, 0, 0.2, 1);
+  --sktch-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* Border Radius System */
+  --sktch-radius-sm: 0.375rem;
+  --sktch-radius-base: 0.5rem;
+  --sktch-radius-lg: 0.75rem;
+  --sktch-radius-xl: 1rem;
+  --sktch-radius-full: 9999px;
+
+  /* Z-Index Scale */
+  --sktch-z-hud: 2147483647;
+  --sktch-z-overlay: 2147483646;
+  --sktch-z-dropdown: 2147483645;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  :root {
+    --sktch-deep-purple: #000000;
+    --sktch-hot-pink: #ff0066;
+    --sktch-soft-white: #ffffff;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --sktch-duration-fast: 0s;
+    --sktch-duration-normal: 0s;
+    --sktch-duration-slow: 0s;
+  }
+}
+
+/* Base Component Classes */
+.sktch-glass {
+  background: var(--sktch-glass-gradient);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sktch-glow {
+  box-shadow: var(--sktch-glow-shadow);
+}
+
+.sktch-elevated {
+  box-shadow: var(--sktch-elevated-shadow);
+}
+
+.sktch-gradient-text {
+  background: var(--sktch-primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.sktch-animate-in {
+  animation: sktchFadeIn var(--sktch-duration-normal) var(--sktch-easing);
+}
+
+.sktch-animate-out {
+  animation: sktchFadeOut var(--sktch-duration-normal) var(--sktch-easing);
+}
+
+.sktch-animate-pulse {
+  animation: sktchPulse 2s var(--sktch-easing) infinite;
+}
+
+.sktch-animate-bounce {
+  animation: sktchBounceIn var(--sktch-duration-slow) var(--sktch-bounce);
+}
+
+/* Core Animations */
+@keyframes sktchFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes sktchFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+}
+
+@keyframes sktchPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes sktchBounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) translateY(100px);
+  }
+  50% {
+    transform: scale(1.05) translateY(-10px);
+  }
+  70% {
+    transform: scale(0.9) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Accessibility Utilities */
+.sktch-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.sktch-focus-ring {
+  outline: 2px solid var(--sktch-accent-blue);
+  outline-offset: 2px;
+}
